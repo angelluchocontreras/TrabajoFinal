@@ -224,6 +224,48 @@ main {
   display: none;
 }
 
+.busqueda {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 10px;
+    padding-bottom: 30px;
+    border: transparent;
+    border-radius: 5px;
+    
+  }
+  .busqueda input[type="text"] {
+    flex: 1;
+    padding: 8px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px 0 0 5px;
+    background-color: #444444;
+  }
+  .busqueda input[type="text"]::placeholder {
+    color: #fff; 
+  }
+ 
+  .busqueda span {
+    padding: 8px 15px;
+    font-size: 16px;
+    background-color: #0a0c0d;
+    color: #ffffff;
+    border: none;
+    border-radius: 0 5px 5px 0;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .busqueda span:hover {
+    background-color: #363c42;
+  }
+ 
+  
+
 @media (max-width: 1200px) {
   .contenedor-producto{
     grid-template-columns: 1fr 1fr;

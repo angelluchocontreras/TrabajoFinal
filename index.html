@@ -33,7 +33,14 @@
           <h1 class="logo">ZapateríaOnline</h1>
         </header>
         <nav>
+            <div class="busqueda">
+                <input type="text" id="textoBusqueda" class="form-control" placeholder="Ingrese el Producto" >
+            <span class="input-group-text" id="btnBusqueda">Buscar</span>
+            </div>
+           
+              
           <ul class="menu">
+            
             <li>
               <button id="todos" class="boton-menu boton-categoria">
                 <i class="bi bi-hand-index-thumb"></i>Tienda
@@ -64,9 +71,13 @@
           Bienvenido/a a la Zapatería Online :D <br />
           Por favor, dirígete a la tienda.
         </h2>
+        
         <div id="contenedor-producto" class="contenedor-producto">
           <!-- Rellenado con js -->
         </div>
+        <div id="mensajeError" class="mensaje-error">
+            No se encontraron productos. Verifique si están bien escritos.
+          </div>
       </main>
     </div>
     <script src="./js/main.js"></script>
