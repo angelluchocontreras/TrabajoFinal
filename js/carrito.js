@@ -65,6 +65,30 @@ function actualizarBotonesEliminar() {
   });
 }
 function eliminarDelCarrito(e) {
+  Toastify({
+		text: "Producto Eliminado -",
+		duration: 1500,
+		destination: "../pages/carrito.html",
+		close: false,
+		gravity: "top", 
+		position: "right", 
+		stopOnFocus: true, 
+		style: {
+		background: "linear-gradient(to right, #3b3b3b, #383838fd )",
+		//   background: "#646464ad",
+		  borderRadius: "10px",
+		  textTransform: "uppercase",
+		  fontSize: "0.85rem"
+		},
+		offset: {
+			x: "2.5rem", 
+			y: "2.5rem" 
+		  },
+		
+		onClick: function(){} // 
+	  }).showToast();
+
+
   const idBoton = e.currentTarget.id;
   const index = productosEnCarrito.findIndex(
     (producto) => producto.id === idBoton
@@ -77,14 +101,52 @@ function eliminarDelCarrito(e) {
     JSON.stringify(productosEnCarrito)
   );
 }
+
 botonVaciar.addEventListener("click", vaciarCarrito);
 function vaciarCarrito() {
-  productosEnCarrito.length = 0;
-  localStorage.setItem(
-    "productos-en-carrito",
-    JSON.stringify(productosEnCarrito)
-  );
-  cargarProductosCarrito();
+  const swalWithBootstrapButtons = Swal.mixin({
+    customClass: {
+      confirmButton: 'btn btn-outline-success gap:5px' ,
+      cancelButton: 'btn btn-outline-danger' 
+    },
+    buttonsStyling: false
+  })
+  
+  swalWithBootstrapButtons.fire({
+    title: '¿Estas seguro?',
+    text: "Se Van a borrar todos tus productos!",
+    icon: 'question',
+    showCancelButton: true,
+    confirmButtonText: 'Si,estoy seguro!',
+    cancelButtonText: 'cancelar!',
+    reverseButtons: true
+  }).then((result) => {
+    if (result.isConfirmed) {
+      productosEnCarrito.length = 0;
+      localStorage.setItem(
+        "productos-en-carrito",
+        JSON.stringify(productosEnCarrito)
+      );
+      cargarProductosCarrito(); 
+      swalWithBootstrapButtons.fire(
+        'Se borraron todos tus productos!',
+        'Tus productos fueron borrados exitosamente :"(.',
+        'success'
+      )
+    } else if (
+      result.dismiss === Swal.DismissReason.cancel
+    ) {
+      swalWithBootstrapButtons.fire(
+        'Se Cancelo :) !!!',
+        'Tus productos no fueron borrados :D',
+        'error'
+      )
+    }
+  })
+
+
+
+
 }
 
 function actualizarTotal() {

@@ -8,6 +8,7 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"
     />
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <link rel="stylesheet" href="./css/style.css" />
   </head>
   <body>
@@ -37,10 +38,12 @@
                 <input type="text" id="textoBusqueda" class="form-control" placeholder="Ingrese el Producto" >
             <span class="input-group-text" id="btnBusqueda">Buscar</span>
             </div>
+
            
               
+
           <ul class="menu">
-            
+           
             <li>
               <button id="todos" class="boton-menu boton-categoria">
                 <i class="bi bi-hand-index-thumb"></i>Tienda
@@ -67,19 +70,15 @@
         <footer><p class="texto-footer">© 2023 ZapateríaOnline</p></footer>
       </aside>
       <main>
-        <h2 class="titulo-principal" id="titulo-principal">
-          Bienvenido/a a la Zapatería Online :D <br />
-          Por favor, dirígete a la tienda.
-        </h2>
-        
+        <h2 class="titulo-principal" id="titulo-principal">Todos los productos</h2>
+        <div id="mensajeError" class="error-mensaje">No se encontraron productos. Verifique si están bien escritos.</div>
         <div id="contenedor-producto" class="contenedor-producto">
           <!-- Rellenado con js -->
         </div>
-        <div id="mensajeError" class="mensaje-error">
-            No se encontraron productos. Verifique si están bien escritos.
-          </div>
+        
       </main>
     </div>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     <script src="./js/main.js"></script>
     <script src="./js/menu.js"></script>
   </body>

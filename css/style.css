@@ -188,6 +188,7 @@ main {
   text-transform: uppercase;
   cursor: pointer;
 }
+
 .carrito-acciones-derecha {
   display: flex;
 }
@@ -212,6 +213,7 @@ main {
   cursor: pointer;
   text-transform: uppercase;
 }
+
 
 .disabled{
   display: none;
@@ -264,7 +266,17 @@ main {
     background-color: #363c42;
   }
  
-  
+  .error-mensaje {
+    display: none;
+    background-color: rgba(252, 0, 0, 0.783);
+    color: rgb(5, 0, 0);
+    font-weight: bold;
+    text-align: center;
+    padding: 30px;
+    border-radius: 10px;
+    
+    
+  }
 
 @media (max-width: 1200px) {
   .contenedor-producto{
@@ -393,4 +405,14 @@ main{
   padding-left: 0px;
   grid-template-columns: 1fr;
 }
+.busqueda {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .busqueda input[type="text"],
+  .busqueda span {
+    border-radius: 5px;
+    margin: 5px 0;
+  }
 }
