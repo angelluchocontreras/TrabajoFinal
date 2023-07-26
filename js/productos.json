@@ -59,7 +59,7 @@
 		"marca":"adidas",
 		"id": "mujer"
 	  },
-	  "precio": 2999
+	  "precio": 4999
 	},
 	{
 	  "id": "mujer02",
@@ -71,7 +71,7 @@
 		"marca":"puma",
 		"id": "mujer"
 	  },
-	  "precio": 2999
+	  "precio": 8999
 	},
 	{
 	  "id": "mujer03",

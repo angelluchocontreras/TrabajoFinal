@@ -1,3 +1,4 @@
+
 let productos = [];
 fetch("./js/productos.json")
 .then(Response => Response.json())
@@ -6,6 +7,7 @@ fetch("./js/productos.json")
 	cargarProductos(productos)
 })
 
+
   const productosMostrados = productos.slice();
   const contenedorProductos = document.querySelector("#contenedor-producto");
   const botonesCategorias = document.querySelectorAll(".boton-categoria");
@@ -13,27 +15,26 @@ fetch("./js/productos.json")
   let botonesAgregar = document.querySelectorAll(".producto-agregar");
   const numerito = document.querySelector("#numerito");
 
+  
 
 
   function cargarProductos(productosElegidos) {
-	contenedorProductos.innerHTML = "";
-	productosElegidos.forEach((producto) => {
-	  const div = document.createElement("div");
-	  div.classList.add("producto");
-	  div.innerHTML = `<img
-	  class="producto-imagen"
-	  src="${producto.imagen}
-	  alt="${producto.titulo}"
-	/>
-	<div class="producto-detalles">
-	  <h3 class="producto-titulo">${producto.titulo}</h3>
-	  <p class="producto-precio">${producto.precio}</p>
-	  <button class="producto-agregar"id="${producto.id}">Agregar +</button>
-	</div>`;
-	  contenedorProductos.append(div);
-	});
+	contenedorProductos.innerHTML = productosElegidos
+	  .map((producto) => `
+		<div class="producto">
+		  <img class="producto-imagen" src="${producto.imagen}" alt="${producto.titulo}" />
+		  <div class="producto-detalles">
+			<h3 class="producto-titulo">${producto.titulo}</h3>
+			<p class="producto-precio">${producto.precio}</p>
+			<button class="producto-agregar" id="${producto.id}">Agregar +</button>
+		  </div>
+		</div>
+	  `)
+	  .join("");
+  
 	actualizarBotonesAgregar();
   }
+  
   
   botonesCategorias.forEach((boton) => {
 	boton.addEventListener("click", (e) => {
@@ -61,12 +62,9 @@ fetch("./js/productos.json")
   
 
   
-  function actualizarBotonesAgregar() {
-	botonesAgregar = document.querySelectorAll(".producto-agregar");
-	botonesAgregar.forEach((boton) => {
-	  boton.addEventListener("click", agregarAlCarrito);
-	});
-  }
+  const actualizarBotonesAgregar = () => {
+	document.querySelectorAll(".producto-agregar").forEach((boton) => boton.addEventListener("click", agregarAlCarrito));
+  };
   let productosEnCarrito;
   
   let productosEnCarritoLS = localStorage.getItem("productos-en-carrito");
@@ -79,93 +77,58 @@ fetch("./js/productos.json")
   }
   
   function agregarAlCarrito(e) {
-    Toastify({
-		text: "Producto agregado +",
-		duration: 1500,
-		destination: "../pages/carrito.html",
-		close: false,
-		gravity: "top", 
-		position: "right", 
-		stopOnFocus: true, 
-		style: {
-		background: "linear-gradient(to right, #3b3b3b, #383838fd )",
-		//   background: "#646464ad",
-		  borderRadius: "10px",
-		  textTransform: "uppercase",
-		  fontSize: "0.85rem"
-		},
-		offset: {
-			x: "2.5rem", 
-			y: "2.5rem" 
-		  },
-		
-		onClick: function(){} // 
-	  }).showToast();
-
-
 	const idBoton = e.currentTarget.id;
-	const productoAgregado = productos.find(
-	  (producto) => producto.id === idBoton
-	);
+	const productoAgregado = productos.find((producto) => producto.id === idBoton);
   
 	if (productosEnCarrito.some((producto) => producto.id === idBoton)) {
-	  const index = productosEnCarrito.findIndex(
-		(producto) => producto.id === idBoton
-	  );
-	  productosEnCarrito[index].cantidad++;
+	  productosEnCarrito.find((producto) => producto.id === idBoton).cantidad++;
 	} else {
 	  productoAgregado.cantidad = 1;
 	  productosEnCarrito.push(productoAgregado);
 	}
   
+	Toastify({
+	  text: "Producto agregado +",
+	  duration: 1500,
+	  destination: "../pages/carrito.html",
+	  close: false,
+	  gravity: "top",
+	  position: "right",
+	  stopOnFocus: true,
+	  style: {
+		background: "linear-gradient(to right, #3b3b3b, #383838fd )",
+		borderRadius: "10px",
+		textTransform: "uppercase",
+		fontSize: "0.85rem",
+	  },
+	  offset: {
+		x: "2.5rem",
+		y: "2.5rem",
+	  },
+	  onClick: function () {},
+	}).showToast();
+  
 	actualizarNumerito();
-	localStorage.setItem(
-	  "productos-en-carrito",
-	  JSON.stringify(productosEnCarrito)
-	);
+	localStorage.setItem("productos-en-carrito", JSON.stringify(productosEnCarrito));
   }
   
+  
   function actualizarNumerito() {
-	let nuevoNumerito = productosEnCarrito.reduce(
-	  (acc, producto) => acc + producto.cantidad,
-	  0
-	);
+	const nuevoNumerito = productosEnCarrito.reduce((acc, producto) => acc + producto.cantidad, 0);
 	numerito.innerText = nuevoNumerito;
   }
+  
   
   const btnBusqueda = document.getElementById("btnBusqueda");
 btnBusqueda.addEventListener("click", buscarPorMarca);
 
-function buscarPorMarca() {
-  const textoBusqueda = document.getElementById("textoBusqueda").value.trim().toLowerCase();
 
-  if (textoBusqueda === "") {
-    cargarProductos(productos);
-    return;
-  }
-
-  const productosFiltrados = productos.filter((producto) => {
-    const marcaProducto = producto.categoria.marca.toLowerCase();
-    return marcaProducto.includes(textoBusqueda);
-  });
-
-  if (productosFiltrados.length === 0) {
-	const mensajeError = document.getElementById("mensajeError");
-	mensajeError.style.display = "block";
-	
-  } else {
-	const mensajeError = document.getElementById("mensajeError");
-	mensajeError.style.display = "none";
-	
-	cargarProductos(productosFiltrados);
-  }
-}
 
 function buscarPorMarca() {
 	const textoBusqueda = document.getElementById("textoBusqueda").value.trim().toLowerCase();
   
 	if (textoBusqueda === "") {
-	  tituloPrincipal.innerText = "Todos los productos"; 
+	  tituloPrincipal.innerText = "Todos los productos";
 	  cargarProductos(productos);
 	  return;
 	}
@@ -178,8 +141,6 @@ function buscarPorMarca() {
 	if (productosFiltrados.length === 0) {
 	  const mensajeError = document.getElementById("mensajeError");
 	  mensajeError.style.display = "block";
-  
-
 	  mensajeError.innerText = `No se encontraron productos de la marca "${textoBusqueda}".`;
 	} else {
 	  const mensajeError = document.getElementById("mensajeError");
@@ -188,5 +149,21 @@ function buscarPorMarca() {
 	  tituloPrincipal.innerText = `Productos de la marca "${textoBusqueda}":`;
   
 	  cargarProductos(productosFiltrados);
-	}
-  }
+	}}
+
+ 
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
